@@ -241,6 +241,135 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/28/MySQL-SQL-SAFE-UPDATES-设置说明/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Tonywu">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="TonyWu's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="TonyWu's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/28/MySQL-SQL-SAFE-UPDATES-设置说明/" itemprop="url">
+                  MySQL SQL_SAFE_UPDATES 设置说明
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-28T15:47:25+08:00">
+                2016-12-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h2><p>鉴于以前出现的数据大表误更新和全表误删除操作。影响服务使用和数据安全。<br>为了防止线上业务出现以下3种情况影响线上服务的正常使用和不小心全表数据删除:</p>
+<p>1:没有加where条件的全表更新操作</p>
+<p>2:加了where 条件字段，但是where 字段 没有走索引的表更新</p>
+<p>3:全表delete 没有加where 条件 或者where 条件没有 走索引</p>
+<p>以上3种情况现在都不能正常进行操作</p>
+<p>会出现以下错误提示:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ERROR 1175 (HY000): You are using safe update mode and you tried to update a table without a WHERE that uses a KEY column</div></pre></td></tr></table></figure></p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>对应错误的表需要增加对应where 条件字段的索引， 如果真要删除全表记录。联系DBA 进行处理</p>
+<p>语法的设置，管理员进入MySQL<br>分global 和当前会话2种不同的 设置方式。</p>
+<figure class="highlight plain"><figcaption><span>global sql_safe_updates  = 1 | 0  ; ``` 全局</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">```set  sql_safe_updates  = 1 | 0  ; ```  当前会话</div><div class="line"></div><div class="line">一般开发用户的权限是 select ,update,delete,insert 。能更改的只有当前会话操作。全局设置会出现没有权限。</div><div class="line"></div><div class="line">```(test@x.x.x.x) [(none)]&gt; set global sql_safe_updates = 1;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><figcaption><span>1227 (42000): Access denied; you need (at least one of) the SUPER privilege(s) for this operation ```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">```(test@x.x.x.x) [(none)]&gt; set  sql_safe_updates = 1;</div><div class="line">Query OK, 0 rows affected (0.00 sec)</div></pre></td></tr></table></figure>
+<p>数据安全需要规范起来</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/28/hello-world/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -402,7 +531,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">Artikel</span>
               </a>
             </div>
