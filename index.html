@@ -312,9 +312,7 @@
         
           
             <h1 id="MySQL-二进制日志过期天数设置"><a href="#MySQL-二进制日志过期天数设置" class="headerlink" title="MySQL 二进制日志过期天数设置"></a>MySQL 二进制日志过期天数设置</h1><ul>
-<li><p>今天在处理业务库中二进制文件的时候，想更改二进制文件的过期天数，发现日期如果设置成2位以上的整数。都会出现如下的警告。不能成功的设置过期日期天数。MySQL版本从5.1到5.5都是一样的。</p>
-<p>​</p>
-</li>
+<li>今天在处理业务库中二进制文件的时候，想更改二进制文件的过期天数，发现日期如果设置成2位以上的整数。都会出现如下的警告。不能成功的设置过期日期天数。MySQL版本从5.1到5.5都是一样的。</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">mysql&gt; set global expire_logs_days=100;</div><div class="line"></div><div class="line">Query OK, 0 rows affected, 1 warning (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; show warnings;</div><div class="line">+---------+------+---------------------------------------------------+</div><div class="line">| Level   | Code | Message                                           |</div><div class="line">+---------+------+---------------------------------------------------+</div><div class="line">| Warning | 1292 | Truncated incorrect expire_logs_days value: &apos;100&apos; |</div><div class="line">+---------+------+---------------------------------------------------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure>
 <ul>
@@ -322,20 +320,19 @@
 </li>
 <li><p>例如你将来值设置成 expire_logs_days= 199（2位以上的正整数),重启MySQL实例服务。查看参数列表，结果如下:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show variables like &apos;expire_logs_days&apos;;</div><div class="line">+------------------+-------+</div><div class="line">| Variable_name    | Value |</div><div class="line">+------------------+-------+</div><div class="line">| expire_logs_days | 99    |</div><div class="line">+------------------+-------+</div><div class="line">1 row in set (0.00 sec)</div></pre></td></tr></table></figure>
-<p>​</p>
 </li>
 <li><p>所以更改日期参数最多只能更改到99 天。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">mysql&gt; set global expire_logs_days=99;</div><div class="line">Query OK, 0 rows affected (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; show variables like &apos;expire_logs_days&apos;;</div><div class="line">+------------------+-------+</div><div class="line">| Variable_name    | Value |</div><div class="line">+------------------+-------+</div><div class="line">| expire_logs_days | 99    |</div><div class="line">+------------------+-------+</div><div class="line">1 row in set (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; set global expire_logs_days=0.5;</div><div class="line">ERROR 1232 (42000): Incorrect argument type to variable &apos;expire_logs_days&apos;</div></pre></td></tr></table></figure>
 <ul>
 <li><p>说明 ：参数不支持浮点数，只支持正整数 。</p>
-<h2 id=""><a href="#" class="headerlink" title=" "></a> </h2><p>总结</p>
-<p>MySQL默认expire_logs_days=0，是不会自动删除日志文件的。如果日志文件过大，且业务需要，只能手动归档压缩备份。</p>
-<p>对于不重要的日志，可以设置expire_logs_days 的值，且需要注意只支持99。如果真的不重要，也没必要保存99天哈。</p>
-</li>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2></li>
 </ul>
 </li>
 </ul>
+<pre><code>MySQL默认expire_logs_days=0，是不会自动删除日志文件的。如果日志文件过大，且业务需要，只能手动归档压缩备份。
 
+对于不重要的日志，可以设置expire_logs_days 的值，且需要注意只支持99。如果真的不重要，也没必要保存99天哈。
+</code></pre>
           
         
       
